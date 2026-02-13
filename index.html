@@ -5,7 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Valentine</title>
 
+<!-- Twemoji for consistent emojis -->
+<script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+
 <style>
+body, .heart, .cupid, .explosion, button, h1, p, .caption {
+    font-family: "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", "Twemoji Mozilla", sans-serif;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -40,7 +47,6 @@ button {
     to { transform: translateY(-700px); opacity: 0; }
 }
 
-/* Cupid below Continue button */
 .cupid {
     font-size: 40px;
     margin-top: 20px;
@@ -123,14 +129,12 @@ button {
     50% { text-shadow: 0 0 12px #ff69b4, 0 0 15px #ffb6c1; }
 }
 
-/* Hearts shot by cupids */
 .cupidHeart {
     position: absolute;
     font-size: 16px;
     animation: cupidHeartMove 2s linear forwards;
 }
 
-/* Grand explosion hearts/stars */
 .explosion {
     position: absolute;
     font-size: 20px;
@@ -142,7 +146,6 @@ button {
     100% { transform: translate(var(--x), var(--y)) scale(1.5); opacity: 0; }
 }
 
-/* Final big heart will appear only on YES click */
 #bigHeart {
     position: fixed;
     font-size: 120px;
@@ -160,7 +163,6 @@ button {
     100% { opacity:1; transform:translate(-50%,-50%) scale(1); }
 }
 
-/* Final screen font */
 #s5 h1 { font-size: 4rem; font-weight:bold; margin-top:25vh; }
 #s5 p { font-size: 2.5rem; font-weight:bold; }
 </style>
@@ -215,7 +217,7 @@ button {
             <div class="caption">Happy hug day </div>
         </div>
         <div>
-            <img src="photo7.jpg" onclick="note('And last youll always have a kiss from me, not just on your lips. On your hands for you are my lady, on your cheeks for you are my mother and on your forehead, for you are my baby ')">
+            <img src="photo7.jpg" onclick="note('And last youll always have a kiss from me, not just on your lips. On your hands for you sre my lady, on your cheeks for you are my mother and on your forehead, for you are my baby ')">
             <div class="caption">Happy kiss day </div>
         </div>
     </div>
@@ -224,7 +226,7 @@ button {
 
 <!-- Screen 4 -->
 <div class="screen" id="s4">
-    <h1>Will you be my Valentine always? </h1>
+    <h1>Will you be my Valentine? </h1>
     <button onclick="yes()">YES </button>
     <button id="noBtn">NO </button>
 </div>
@@ -243,7 +245,7 @@ I Love you Kanmani</h1>
     <button onclick="closePop()">Close</button>
 </div>
 
-<div id="bigHeart"></div> <!-- will only appear on YES click -->
+<div id="bigHeart"></div>
 
 <audio id="music" src="Poove.mp3" loop></audio>
 
@@ -255,7 +257,7 @@ let noCount = 0;
 setInterval(()=>{
     let h=document.createElement("div");
     h.className="heart";
-    h.innerHTML="";
+    h.textContent=""; // use textContent for emojis
     h.style.left=Math.random()*100+"vw";
     h.style.top="100vh";
     document.body.appendChild(h);
@@ -281,7 +283,7 @@ function quiz(){
 function note(text){
     const popup = document.getElementById("popup");
     const popupText = document.getElementById("popupText");
-    popupText.innerHTML = text;
+    popupText.textContent = text; // use textContent for emojis
     popupText.style.animation = "sparkle 1s infinite";
     document.getElementById("overlay").style.display = "block";
     popup.style.display = "flex";
@@ -300,7 +302,7 @@ function explode(sym){
     for(let i=0;i<30;i++){
         let s=document.createElement("div");
         s.className="heart";
-        s.innerHTML=sym;
+        s.textContent=sym; // use textContent for emojis
         s.style.left=Math.random()*100+"vw";
         s.style.top="60vh";
         s.style.fontSize=(15+Math.random()*25)+"px";
@@ -312,7 +314,7 @@ function explode(sym){
 document.getElementById("noBtn").addEventListener("touchstart",()=>{
     noCount++;
     if(noCount>=10){
-        note("<b>Avloodhan unakku mariyadhaiSeruppala adipen naaye Mariyadhaiya yes sollu </b>");
+        note("Avloodhan unakku mariyadhaiSeruppala adipen naaye Mariyadhaiya yes sollu ");
         return;
     }
     let b=document.getElementById("noBtn");
@@ -322,12 +324,11 @@ document.getElementById("noBtn").addEventListener("touchstart",()=>{
 });
 
 function yes(){
-    // Super magical grand explosion
     const symbols=["","","","",""];
     for(let i=0;i<60;i++){
         let e=document.createElement("div");
         e.className="explosion";
-        e.innerHTML=symbols[Math.floor(Math.random()*symbols.length)];
+        e.textContent = symbols[Math.floor(Math.random()*symbols.length)];
         e.style.left = Math.random()*window.innerWidth+"px";
         e.style.top = Math.random()*window.innerHeight+"px";
         e.style.setProperty('--x', (Math.random()*500-250)+"px");
@@ -336,13 +337,16 @@ function yes(){
         document.body.appendChild(e);
         setTimeout(()=>e.remove(),2500);
     }
-    // Big heart fade in
     const bh = document.getElementById("bigHeart");
     bh.style.opacity = 1;
-    // Show popup with photo8.jpg
     note("<img src='photo8.jpg' style='width:90%; border-radius:15px;'>");
     setTimeout(()=>next(5),2500);
 }
+
+// Twemoji parse
+document.addEventListener("DOMContentLoaded", () => {
+    twemoji.parse(document.body);
+});
 </script>
 
 </body>
